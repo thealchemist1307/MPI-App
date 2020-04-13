@@ -1,19 +1,36 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import Home from './components/Home'
+import SignIn from './components/SignIn'
+import AuthLoadingScreen from './components/AuthLoadingScreen'
+import { createAppContainer, createSwitchNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
+import LiveFeed from './components/LiveFeed'
+import Requests from './components/Requests'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
+const AppStack = createStackNavigator({Home: { screen: Home },
+    LiveFeed: { screen: LiveFeed },Requests: { screen: Requests }},
+    {
+        initialRouteName: 'Home',
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: "#512DA8"
+            },
+            headerTintColor: '#2F95D6',
+            headerTitleStyle: {
+                color: "#2F95D6"            
+            }
+        }
+      });
+const AuthStack = createStackNavigator({ Signin: SignIn });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default createAppContainer(createSwitchNavigator(
+    {
+        Starter: AuthLoadingScreen, 
+        App: AppStack, 
+        Auth: AuthStack
+    }, 
+    {
+        initialRouteName: 'Starter'
+    }
+));
+
